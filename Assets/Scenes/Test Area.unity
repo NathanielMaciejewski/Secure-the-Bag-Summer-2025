@@ -496,8 +496,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_AngularDamping: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -521,8 +521,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faca846f94b7db64683e98edbfbc929c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 3
-  jumpVelocity: 10
+  groundSpeedCap: 3
+  groundAcceleration: 30
+  normalJumpSpeedCap: 3
+  normalJumpAccelerationX: 20
+  normalJumpAccelerationY: 4
+  normalJumpMaxHeight: 1
+  normalJumpGravity: -0.05
+  normalJumpFallSpeedCap: -4
+  highJumpSpeedCap: 1
+  highJumpAccelerationX: 0.1
+  highJumpAccelerationY: 0.1
+  highJumpGravity: -0.1
+  highJumpFallSpeedCap: -1
+  longJumpSpeedCap: 1
+  longJumpAccelerationX: 0.1
+  longJumpAccelerationY: 0.1
+  longJumpGravity: -0.1
+  longJumpFallSpeedCap: -1
+  fallSpeedCap: 1
+  relativeScale: 0.1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1187545913
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,9 +555,9 @@ GameObject:
   - component: {fileID: 1187545916}
   - component: {fileID: 1187545915}
   - component: {fileID: 1187545914}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
