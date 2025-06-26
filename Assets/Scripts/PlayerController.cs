@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMOD.Studio;
 
 public class PlayerController : MonoBehaviour
 {
@@ -34,6 +35,10 @@ public class PlayerController : MonoBehaviour
     private float jumpInitialY = 0;
     private bool hasJumpTimedOut = false;
 
+    #region Audio
+    private EventInstance playerFootsteps;
+    #endregion
+
     private enum MovementState
     {
         GROUNDED,
@@ -45,7 +50,7 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        playerFootsteps = AudioManager.instance.CreateEventInstance(FMODEvents.instance.defaultFootsteps);
     }
 
     private void Awake()
@@ -69,7 +74,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded())
             movementState = MovementState.GROUNDED;
 
-        switch(movementState)
+        switch (movementState)
         {
             case MovementState.GROUNDED:
 
@@ -128,6 +133,7 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.Translate(new Vector3(velocity.x * Time.deltaTime, velocity.y * Time.deltaTime, 0));
+        UpdateSound();
 
     }
 
@@ -208,5 +214,26 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.right, 0.1f, groundLayer);
         return raycastHit.collider != null && velocity.x > -0.01f;
+    }
+
+    private void UpdateSound()
+    {
+
+        // Start footsteps event if player is moving and grounded
+        if (velocity.x != 0 && isGrounded())
+        {
+            // Check if footsteps are already playing
+            PLAYBACK_STATE playbackState;
+            playerFootsteps.getPlaybackState(out playbackState);
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                playerFootsteps.start();
+            }
+            // Otherwsie, stop the footstep event
+            else
+            {
+                playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+            }
+        }
     }
 }

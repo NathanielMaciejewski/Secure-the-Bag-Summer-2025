@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
 {
     private List<EventInstance> eventInstances;
     private List<StudioEventEmitter> eventEmitters;
-   
+
     private EventInstance ambienceEventInstance;
     private EventInstance musicEventInstance;
 
@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -30,17 +30,17 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-
+        eventInstances = new List<EventInstance>();
     }
 
     private void Start()
     {
-       
+        InitializeAmbience(FMODEvents.instance.levelOneAmbience);
     }
 
     void Update()
     {
-        
+
     }
 
     private void InitializeAmbience(EventReference ambienceEventReference)
@@ -68,8 +68,23 @@ public class AudioManager : MonoBehaviour
     public EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        eventInstances.Add(eventInstance);
         return eventInstance;
     }
 
-    
+    private void CleanUp()
+    {
+        // Stop and release any created instances
+        foreach (EventInstance eventInstance in eventInstances)
+        {
+            eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            eventInstance.release();
+        }
+    }
+
+    private void Oestroy()
+    {
+        CleanUp();
+    }
+
 }
