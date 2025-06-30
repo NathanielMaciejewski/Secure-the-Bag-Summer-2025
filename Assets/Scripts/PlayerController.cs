@@ -120,15 +120,47 @@ public class PlayerController : MonoBehaviour
                 // Vertical movement
                 if (hasJumpTimedOut)
                 {
-                    velocity.y += normalJumpGravity;
+                    velocity.y += normalJumpGravity * Time.deltaTime;
                     if (velocity.y < normalJumpFallSpeedCap)
                         velocity.y = normalJumpFallSpeedCap;
                 }
                 break;
 
             case MovementState.HIGH_JUMP:
+
+                // Check if hitting a ceiling
+                if (isHeadBonk() && velocity.y > 0)
+                    velocity.y *= -0.7f;
+
+                // Horizontal movement
+                doLeftRightMovement(highJumpAccelerationX, highJumpSpeedCap);
+
+                velocity.y += highJumpGravity * Time.deltaTime;
+                if (velocity.y < highJumpFallSpeedCap)
+                    velocity.y = highJumpFallSpeedCap;                
                 break;
             case MovementState.LONG_JUMP:
+
+                // Check if hitting a ceiling
+                if (isHeadBonk() && velocity.y > 0)
+                {
+                    movementState = MovementState.NORMAL_JUMP;
+                    velocity.y *= -0.7f;
+                }
+
+                // Check if hitting a wall
+                if (isWallToLeft() || isWallToRight())
+                {
+                    movementState = MovementState.NORMAL_JUMP;
+                    velocity.x *= -0.5f;
+                }
+
+                // Horizontal movement
+                doLeftRightMovement(longJumpAccelerationX, longJumpSpeedCap);
+
+                velocity.y += longJumpGravity * Time.deltaTime;
+                if (velocity.y < longJumpFallSpeedCap)
+                    velocity.y = longJumpFallSpeedCap;
                 break;
         }
 
@@ -150,14 +182,12 @@ public class PlayerController : MonoBehaviour
             if (velocity.x < -1 * speedCap)
                 velocity.x = -1 * speedCap;
         }
-        /*else if (Mathf.Abs(velocity.x) < 0.01f * Time.deltaTime)
+        // Only apply no-input friction when the player is grounded
+        else if (isGrounded())
         {
-            velocity.x = 0;
-        }*/
-        else
-        {
-            //velocity.x += (velocity.x > 0 ? -0.5f : 0.5f) * acceleration * Time.deltaTime;
             velocity.x *= 1.0f / (1.0f + 5 * acceleration * Time.deltaTime);
+            if (Mathf.Abs(velocity.x) < 0.01f)
+                velocity.x = 0;
         }
 
         // Check for wall collisions and bounce the player back if so
@@ -180,6 +210,7 @@ public class PlayerController : MonoBehaviour
         //body.linearVelocityY = jumpVelocity * 1.5f;
         movementState = MovementState.HIGH_JUMP;
         jumpInitialY = transform.localPosition.y;
+        velocity.y = highJumpAccelerationY;
         hasJumpTimedOut = true;
     }
 
@@ -189,6 +220,8 @@ public class PlayerController : MonoBehaviour
         //body.linearVelocityX *= 1.5f;
         movementState = MovementState.LONG_JUMP;
         jumpInitialY = transform.localPosition.y;
+        velocity.x *= 1.5f;
+        velocity.y = longJumpAccelerationY;
         hasJumpTimedOut = false;
     }
 

@@ -687,21 +687,21 @@ MonoBehaviour:
   groundSpeedCap: 3
   groundAcceleration: 30
   normalJumpSpeedCap: 3
-  normalJumpAccelerationX: 20
+  normalJumpAccelerationX: 15
   normalJumpAccelerationY: 4
   normalJumpMaxHeight: 1
-  normalJumpGravity: -0.05
+  normalJumpGravity: -10
   normalJumpFallSpeedCap: -4
   highJumpSpeedCap: 1
-  highJumpAccelerationX: 0.1
-  highJumpAccelerationY: 0.1
-  highJumpGravity: -0.1
-  highJumpFallSpeedCap: -1
-  longJumpSpeedCap: 1
-  longJumpAccelerationX: 0.1
-  longJumpAccelerationY: 0.1
-  longJumpGravity: -0.1
-  longJumpFallSpeedCap: -1
+  highJumpAccelerationX: 3
+  highJumpAccelerationY: 8
+  highJumpGravity: -10
+  highJumpFallSpeedCap: -5
+  longJumpSpeedCap: 4.5
+  longJumpAccelerationX: 5
+  longJumpAccelerationY: 3
+  longJumpGravity: -5
+  longJumpFallSpeedCap: -3
   fallSpeedCap: 1
   relativeScale: 0.1
   groundLayer:
