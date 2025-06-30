@@ -74,6 +74,11 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded())
         {
+            if (movementState != MovementState.GROUNDED)
+            {
+                // Sfx code for landing goes here
+            }
+
             movementState = MovementState.GROUNDED;
             //if (Input.GetKey(KeyCode.S))
                 //scale.y = 0.5f;
@@ -261,22 +266,22 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateSound()
     {
+        // Check if footsteps are already playing
+        PLAYBACK_STATE playbackState;
+        playerFootsteps.getPlaybackState(out playbackState);
 
         // Start footsteps event if player is moving and grounded
-        if (velocity.x != 0 && isGrounded())
+        if (Mathf.Abs(velocity.x) > 0.01f && isGrounded())
         {
-            // Check if footsteps are already playing
-            PLAYBACK_STATE playbackState;
-            playerFootsteps.getPlaybackState(out playbackState);
             if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
             {
                 playerFootsteps.start();
             }
-            // Otherwsie, stop the footstep event
-            else
-            {
-                playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
-            }
+        }
+        // Otherwsie, stop the footstep event
+        else
+        {
+            playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
         }
     }
 }
