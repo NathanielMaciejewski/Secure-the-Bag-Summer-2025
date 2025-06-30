@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public float longJumpGravity = -0.1f;
     public float longJumpFallSpeedCap = -1;
 
-    public float fallSpeedCap = 1;
+    //public float fallSpeedCap = 1;
 
     public float relativeScale = 0.1f;
     [SerializeField] private LayerMask groundLayer;
@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D boxCollider;
     private Vector2 playerInput;
     private Vector2 velocity;
+    private Vector3 scale = new Vector3(1, 1, 1);
     private MovementState movementState = MovementState.GROUNDED;
     private float jumpInitialY = 0;
     private bool hasJumpTimedOut = false;
@@ -67,12 +68,20 @@ public class PlayerController : MonoBehaviour
 
         // Set player facing direction
         if (velocity.x > 0.01)
-            transform.localScale = new Vector3(1, 1, 1) * relativeScale;
+            scale.x = 1.0f;
         else if (velocity.x < -0.01)
-            transform.localScale = new Vector3(-1, 1, 1) * relativeScale;
+            scale.x = -1.0f;
 
         if (isGrounded())
+        {
             movementState = MovementState.GROUNDED;
+            //if (Input.GetKey(KeyCode.S))
+                //scale.y = 0.5f;
+        }
+        else
+        {
+            scale.y = 1.0f;
+        }
 
         switch (movementState)
         {
@@ -165,6 +174,7 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.Translate(new Vector3(velocity.x * Time.deltaTime, velocity.y * Time.deltaTime, 0));
+        transform.localScale = scale * relativeScale;
         UpdateSound();
 
     }
