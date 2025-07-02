@@ -236,6 +236,13 @@ MonoBehaviour:
       Data3: 1523176872
       Data4: 498272976
     Path: event:/DefaultFootsteps
+  <land>k__BackingField:
+    Guid:
+      Data1: -1075275887
+      Data2: 1285926248
+      Data3: 179522736
+      Data4: -1716078178
+    Path: event:/PlayerLand
   <bagGrab>k__BackingField:
     Guid:
       Data1: -188670521
@@ -702,7 +709,6 @@ MonoBehaviour:
   longJumpAccelerationY: 3
   longJumpGravity: -5
   longJumpFallSpeedCap: -3
-  fallSpeedCap: 1
   relativeScale: 0.1
   groundLayer:
     serializedVersion: 2

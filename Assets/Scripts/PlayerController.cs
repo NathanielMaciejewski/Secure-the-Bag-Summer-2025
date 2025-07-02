@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
             if (movementState != MovementState.GROUNDED)
             {
                 // Sfx code for landing goes here
+                AudioManager.instance.PlayOneShot(FMODEvents.instance.land, this.transform.position);
             }
 
             movementState = MovementState.GROUNDED;

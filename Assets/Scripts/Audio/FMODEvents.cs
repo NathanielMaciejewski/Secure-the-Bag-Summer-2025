@@ -13,6 +13,7 @@ public class FMODEvents : MonoBehaviour
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference jump { get; private set; }
     [field: SerializeField] public EventReference defaultFootsteps { get; private set; }
+    [field: SerializeField] public EventReference land { get; private set; }
 
     [field: Header("Bag SFX")]
     [field: SerializeField] public EventReference bagGrab { get; private set; }
