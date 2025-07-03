@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         InitializeAmbience(FMODEvents.instance.levelOneAmbience);
+        InitializeScore(FMODEvents.instance.levelOneScore);
     }
 
     void Update()
