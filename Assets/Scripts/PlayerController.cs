@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D body;
     private BoxCollider2D boxCollider;
+    private GameObject heldItem;
+    private GameObject closeGrabbableItem;
     private Vector2 playerInput;
     private Vector2 velocity;
     private Vector3 scale = new Vector3(1, 1, 1);
@@ -182,6 +184,22 @@ public class PlayerController : MonoBehaviour
         transform.localScale = scale * relativeScale;
         UpdateSound();
 
+        if (heldItem == null
+            && closeGrabbableItem != null
+            && Vector3.SqrMagnitude(transform.position - closeGrabbableItem.transform.position) <= 1
+            && Input.GetKey(KeyCode.X))
+        {
+            heldItem = closeGrabbableItem;
+            heldItem.transform.SetParent(transform);
+            heldItem.transform.localPosition = new Vector3(0, 8, 0);
+        }
+
+        if (heldItem != null && Input.GetKey(KeyCode.C))
+        {
+            heldItem.transform.SetParent(null);
+            heldItem = null;
+        }
+
     }
 
     private void doLeftRightMovement(float acceleration, float speedCap)
@@ -262,6 +280,12 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.right, 0.1f, groundLayer);
         return raycastHit.collider != null && velocity.x > -0.01f;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (heldItem == null && collision.gameObject.CompareTag("Grabbable"))
+            closeGrabbableItem = collision.gameObject;
     }
 
     private void UpdateSound()
