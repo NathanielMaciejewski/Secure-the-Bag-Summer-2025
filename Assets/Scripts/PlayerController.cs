@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
                 // Determine whether to jump
                 if (Input.GetKey(KeyCode.Space) && isGrounded())
                 {
-                    if (Input.GetKey(KeyCode.S))
+                    if (Input.GetKey(KeyCode.S) && heldItem == null)
                         if (Mathf.Abs(velocity.x) > 0.5 * groundSpeedCap)
                             jumpLong();
                         else
@@ -235,7 +235,7 @@ public class PlayerController : MonoBehaviour
         movementState = MovementState.NORMAL_JUMP;
         jumpInitialY = transform.localPosition.y;
         velocity.y = initialVelocity;
-        hasJumpTimedOut = initialVelocity < 0.01f;
+        hasJumpTimedOut = initialVelocity < 0.01f || heldItem != null;
     }
 
     private void jumpHigh()
