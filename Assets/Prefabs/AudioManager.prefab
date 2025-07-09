@@ -140,18 +140,18 @@ MonoBehaviour:
     Path: event:/SFX/BagRelease
   <buttonPress>k__BackingField:
     Guid:
-      Data1: 907209005
-      Data2: 1334211037
-      Data3: -1071154301
-      Data4: -790033111
-    Path: event:/SFX/ButtonPress
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   <buttonRelease>k__BackingField:
     Guid:
-      Data1: 809786422
-      Data2: 1285556465
-      Data3: -112796744
-      Data4: 609435217
-    Path: event:/SFX/ButtonRelease
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   <mechanicalDoorOpen>k__BackingField:
     Guid:
       Data1: 0
