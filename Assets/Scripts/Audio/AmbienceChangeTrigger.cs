@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class AmbienceChangeTrigger : MonoBehaviour
 {
-    [Header("Parameter Change")]
-    [SerializeField] private string parameterName;
-    [SerializeField] private float parameterValue;
+    [Header("Area")]
+    [SerializeField] private AmbienceArea area;
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag.Equals("Player"))
         {
-            AudioManager.instance.SetAmbienceParameter(parameterName, parameterValue);
-            Debug.Log(parameterName + " value " + parameterValue);
+            AudioManager.instance.SetAmbienceArea(area);
         }
     }
 }

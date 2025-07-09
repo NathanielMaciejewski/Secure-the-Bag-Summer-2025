@@ -91,11 +91,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <levelOneAmbience>k__BackingField:
     Guid:
-      Data1: 385003341
-      Data2: 1154430317
-      Data3: 110538909
-      Data4: -364898005
-    Path: event:/Ambience/CityAMB
+      Data1: -1954862797
+      Data2: 1291270280
+      Data3: 1222063805
+      Data4: 771991350
+    Path: event:/Ambience/Level1Ambience
   <levelOneScore>k__BackingField:
     Guid:
       Data1: -522910733

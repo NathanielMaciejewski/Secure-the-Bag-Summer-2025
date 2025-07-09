@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
             movementState = MovementState.GROUNDED;
             //if (Input.GetKey(KeyCode.S))
-                //scale.y = 0.5f;
+            //scale.y = 0.5f;
         }
         else
         {
@@ -186,18 +186,21 @@ public class PlayerController : MonoBehaviour
         transform.localScale = scale * relativeScale;
         UpdateSound();
 
+        // If player presses X and isn't holding something, grab object
         if (heldItem == null
             && closeGrabbableItem != null
             && Vector3.SqrMagnitude(transform.position - closeGrabbableItem.transform.position) <= 1
             && Input.GetKey(KeyCode.X))
         {
             heldItem = closeGrabbableItem;
+            PlayGrabSound();
             heldItem.transform.SetParent(transform);
             heldItem.transform.localPosition = new Vector3(0, 8, 0);
         }
 
         if (heldItem != null && Input.GetKey(KeyCode.C))
         {
+            PlayReleaseSound();
             heldItem.transform.SetParent(null);
             heldItem = null;
         }
@@ -316,6 +319,16 @@ public class PlayerController : MonoBehaviour
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.jump, this.transform.position);
     }
+
+    private void PlayGrabSound()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.bagGrab, this.transform.position);
+    }
+    private void PlayReleaseSound()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.bagRelease, this.transform.position);
+    }
+
     #endregion
 
 }
