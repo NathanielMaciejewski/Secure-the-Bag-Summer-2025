@@ -127,46 +127,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <score>k__BackingField.Path
-      value: event:/Music/Level1Score
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <score>k__BackingField.Guid.Data1
-      value: -522910733
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <score>k__BackingField.Guid.Data2
-      value: 1271937710
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <score>k__BackingField.Guid.Data3
-      value: -1346551398
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <score>k__BackingField.Guid.Data4
-      value: -2059772417
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <levelOneScore>k__BackingField.Path
-      value: event:/Music/Level1Score
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <levelOneScore>k__BackingField.Guid.Data1
-      value: -522910733
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <levelOneScore>k__BackingField.Guid.Data2
-      value: 1271937710
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <levelOneScore>k__BackingField.Guid.Data3
-      value: -1346551398
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236687620481379339, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
-      propertyPath: <levelOneScore>k__BackingField.Guid.Data4
-      value: -2059772417
-      objectReference: {fileID: 0}
     - target: {fileID: 5169767963783236661, guid: 23a7a8fe25c7e4ad3a53bb007f47e5a4, type: 3}
       propertyPath: m_Name
       value: AudioManager

@@ -96,13 +96,13 @@ MonoBehaviour:
       Data3: 110538909
       Data4: -364898005
     Path: event:/Ambience/CityAMB
-  <score>k__BackingField:
+  <levelOneScore>k__BackingField:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -522910733
+      Data2: 1271937710
+      Data3: -1346551398
+      Data4: -2059772417
+    Path: event:/Music/Level1Score
   <jump>k__BackingField:
     Guid:
       Data1: 151898664
@@ -110,6 +110,13 @@ MonoBehaviour:
       Data3: 1273634976
       Data4: 473473632
     Path: event:/SFX/PlayerJump
+  <land>k__BackingField:
+    Guid:
+      Data1: -1075275887
+      Data2: 1285926248
+      Data3: 179522736
+      Data4: -1716078178
+    Path: event:/SFX/PlayerLand
   <defaultFootsteps>k__BackingField:
     Guid:
       Data1: 1229218907
@@ -131,3 +138,31 @@ MonoBehaviour:
       Data3: 165492369
       Data4: 1507332206
     Path: event:/SFX/BagRelease
+  <buttonPress>k__BackingField:
+    Guid:
+      Data1: 907209005
+      Data2: 1334211037
+      Data3: -1071154301
+      Data4: -790033111
+    Path: event:/SFX/ButtonPress
+  <buttonRelease>k__BackingField:
+    Guid:
+      Data1: 809786422
+      Data2: 1285556465
+      Data3: -112796744
+      Data4: 609435217
+    Path: event:/SFX/ButtonRelease
+  <mechanicalDoorOpen>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  <mechanicalDoorClose>k__BackingField:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

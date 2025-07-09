@@ -12,12 +12,18 @@ public class FMODEvents : MonoBehaviour
 
     [field: Header("Player SFX")]
     [field: SerializeField] public EventReference jump { get; private set; }
+    [field: SerializeField] public EventReference land { get; private set; }
     [field: SerializeField] public EventReference defaultFootsteps { get; private set; }
 
     [field: Header("Bag SFX")]
     [field: SerializeField] public EventReference bagGrab { get; private set; }
     [field: SerializeField] public EventReference bagRelease { get; private set; }
 
+    [field: Header("Environment")]
+    [field: SerializeField] public EventReference buttonPress { get; private set; }
+    [field: SerializeField] public EventReference buttonRelease { get; private set; }
+    [field: SerializeField] public EventReference mechanicalDoorOpen { get; private set; }
+    [field: SerializeField] public EventReference mechanicalDoorClose { get; private set; }
 
     public static FMODEvents instance { get; private set; }
 

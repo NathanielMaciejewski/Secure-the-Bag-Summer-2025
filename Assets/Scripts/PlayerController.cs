@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
             if (movementState != MovementState.GROUNDED)
             {
                 // Sfx code for landing goes here
+                AudioManager.instance.PlayOneShot(FMODEvents.instance.land, this.transform.position);
             }
 
             movementState = MovementState.GROUNDED;
@@ -110,6 +111,7 @@ public class PlayerController : MonoBehaviour
                 // Determine whether to jump
                 if (Input.GetKey(KeyCode.Space) && isGrounded())
                 {
+                    PlayJumpSound();
                     if (Input.GetKey(KeyCode.S) && heldItem == null)
                         if (Mathf.Abs(velocity.x) > 0.5 * groundSpeedCap)
                             jumpLong();
@@ -153,7 +155,7 @@ public class PlayerController : MonoBehaviour
 
                 velocity.y += highJumpGravity * Time.deltaTime;
                 if (velocity.y < highJumpFallSpeedCap)
-                    velocity.y = highJumpFallSpeedCap;                
+                    velocity.y = highJumpFallSpeedCap;
                 break;
             case MovementState.LONG_JUMP:
 
@@ -288,6 +290,7 @@ public class PlayerController : MonoBehaviour
             closeGrabbableItem = collision.gameObject;
     }
 
+    #region Audio Functions
     private void UpdateSound()
     {
         // Check if footsteps are already playing
@@ -308,4 +311,11 @@ public class PlayerController : MonoBehaviour
             playerFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
         }
     }
+
+    private void PlayJumpSound()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.jump, this.transform.position);
+    }
+    #endregion
+
 }
