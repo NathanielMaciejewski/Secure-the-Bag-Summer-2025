@@ -105,5 +105,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61ac80c399ba430caeac80032174f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parameterName: 
-  parameterValue: 0
+  parameterName: Music Volume
+  parameterValue: 1

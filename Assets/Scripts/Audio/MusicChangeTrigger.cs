@@ -6,7 +6,7 @@ public class MusicChangeTrigger : MonoBehaviour
     [SerializeField] private string parameterName;
     [SerializeField] private float parameterValue;
 
-    private void OiggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag.Equals("Player"))
         {
