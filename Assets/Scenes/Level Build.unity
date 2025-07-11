@@ -130,8 +130,8 @@ GameObject:
   - component: {fileID: 79387152}
   - component: {fileID: 79387155}
   - component: {fileID: 79387154}
-  - component: {fileID: 79387156}
-  m_Layer: 3
+  - component: {fileID: 79387157}
+  m_Layer: 0
   m_Name: Button
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.125}
+  m_Offset: {x: 0, y: 0.18565017}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -197,7 +197,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.0393035}
+  m_Size: {x: 1, y: 1.160604}
   m_EdgeRadius: 0
 --- !u!212 &79387155
 SpriteRenderer:
@@ -254,52 +254,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &79387156
-BoxCollider2D:
+--- !u!114 &79387157
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 79387151}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fe75da1b132c3e4082d2a51102b5096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _doorBehavior: {fileID: 1053598887}
+  isDoorOpenSwitch: 1
+  isDoorCloseSwitch: 1
 --- !u!1001 &134552946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1816,6 +1785,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 10, y: 0.9375}
   m_EdgeRadius: 0
+--- !u!114 &1053598887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053598878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f41d56230cdfa24a825773407ca0c22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isDoorOpen: 0
 --- !u!1001 &1131127700
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1895,11 +1877,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3014886568342438627, guid: b5d80893a08716841a6c49c24ce645b3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 32.75
+      value: 17.47
       objectReference: {fileID: 0}
     - target: {fileID: 3014886568342438627, guid: b5d80893a08716841a6c49c24ce645b3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.19
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 3014886568342438627, guid: b5d80893a08716841a6c49c24ce645b3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2254,7 +2236,7 @@ Transform:
   m_GameObject: {fileID: 2009583264}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.14, y: -3.4, z: -11.1}
+  m_LocalPosition: {x: 29.14, y: -3.4, z: -12.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3510,7 +3492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5127313340423394963, guid: 121c19ae244df3f488b83b5e1ff7ed2e, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5127313340423394963, guid: 121c19ae244df3f488b83b5e1ff7ed2e, type: 3}
       propertyPath: m_TagString
@@ -3570,6 +3552,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5127313340423394963, guid: 121c19ae244df3f488b83b5e1ff7ed2e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1053598886}
+    - targetCorrespondingSourceObject: {fileID: 5127313340423394963, guid: 121c19ae244df3f488b83b5e1ff7ed2e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1053598887}
   m_SourcePrefab: {fileID: 100100000, guid: 121c19ae244df3f488b83b5e1ff7ed2e, type: 3}
 --- !u!1001 &6692126192637506115
 PrefabInstance:
