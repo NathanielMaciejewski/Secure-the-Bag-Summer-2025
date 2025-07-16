@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private bool hasJumpTimedOut = false;
 
     #region Audio
-    private EventInstance playerFootsteps;
+    public EventInstance playerFootsteps;
     #endregion
 
     private enum MovementState
