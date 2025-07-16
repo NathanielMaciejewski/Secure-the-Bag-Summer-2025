@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private MovementState movementState = MovementState.GROUNDED;
     private float jumpInitialY = 0;
     private bool hasJumpTimedOut = false;
+    private GrabbableBehavior grabbableBehavior;
 
     #region Audio
     public EventInstance playerFootsteps;
@@ -193,6 +194,13 @@ public class PlayerController : MonoBehaviour
             && Input.GetKey(KeyCode.X))
         {
             heldItem = closeGrabbableItem;
+            grabbableBehavior = heldItem.GetComponent<GrabbableBehavior>();
+
+            if (grabbableBehavior != null)
+                grabbableBehavior.Grab();
+            else
+                Debug.Log("Error: player grabbed an item with no GrabbableBehavior.");
+
             PlayGrabSound();
             heldItem.transform.SetParent(transform);
             heldItem.transform.localPosition = new Vector3(0, 8, 0);
@@ -200,6 +208,12 @@ public class PlayerController : MonoBehaviour
 
         if (heldItem != null && Input.GetKey(KeyCode.C))
         {
+            if (grabbableBehavior != null)
+            {
+                 grabbableBehavior.Release(velocity);
+                 grabbableBehavior = null;
+            }
+
             PlayReleaseSound();
             heldItem.transform.SetParent(null);
             heldItem = null;

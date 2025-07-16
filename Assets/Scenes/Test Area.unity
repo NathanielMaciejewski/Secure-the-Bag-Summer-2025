@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 1165947546}
   - component: {fileID: 1165947545}
   - component: {fileID: 1165947544}
+  - component: {fileID: 1165947547}
   m_Layer: 0
   m_Name: Bag
   m_TagString: Grabbable
@@ -522,6 +523,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1165947547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165947543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e5981917868e14e986fd00acc0d2be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: -9.8
+  xVelDamping: 1
+  xVelThrowMultiplier: 2.5
+  yVelThrowBoost: 2.5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1187545913
 GameObject:
   m_ObjectHideFlags: 0
