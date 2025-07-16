@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -17,7 +18,15 @@ public class DoorSwitchBehavior : MonoBehaviour
     float _switchDelay = 0.2f;
     bool isPressingSwitch = false;
 
+    private EventInstance switchDown;
+    private EventInstance switchUp;
+
     // Start is called before the first frame update
+    void Start()
+    {
+        switchDown = AudioManager.instance.CreateEventInstance(FMODEvents.instance.buttonPress);
+        switchUp = AudioManager.instance.CreateEventInstance(FMODEvents.instance.buttonRelease);
+    }
     void Awake()
     {
         _switchSizeY = gameObject.transform.localScale.y / 2;
@@ -43,7 +52,7 @@ public class DoorSwitchBehavior : MonoBehaviour
         if (transform.position != _switchDownPos)
         {
             transform.position = Vector3.MoveTowards(transform.position, _switchDownPos, _switchSpeed * Time.deltaTime);
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.buttonPress, this.transform.position);
+            UpdateSound(switchDown);
         }
     }
 
@@ -52,7 +61,7 @@ public class DoorSwitchBehavior : MonoBehaviour
         if (transform.position != _switchUpPos)
         {
             transform.position = Vector3.MoveTowards(transform.position, _switchUpPos, _switchSpeed * Time.deltaTime);
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.buttonRelease, this.transform.position);
+            UpdateSound(switchUp);
         }
     }
 
@@ -77,7 +86,7 @@ public class DoorSwitchBehavior : MonoBehaviour
     {
         if (collision.CompareTag("Player") || (collision.CompareTag("Grabbable")))
         {
-            
+
             if (isDoorCloseSwitch && _doorBehavior._isDoorOpen)
             {
                 _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
@@ -90,6 +99,17 @@ public class DoorSwitchBehavior : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         isPressingSwitch = false;
+    }
+    
+    private void UpdateSound(EventInstance switchEventInstance)
+    {
+        PLAYBACK_STATE playbackState;
+        switchEventInstance.getPlaybackState(out playbackState);
+
+        if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                switchEventInstance.start();
+            }
     }
 }
 
