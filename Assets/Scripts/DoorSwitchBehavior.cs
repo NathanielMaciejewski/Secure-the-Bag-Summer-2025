@@ -43,6 +43,7 @@ public class DoorSwitchBehavior : MonoBehaviour
         if (transform.position != _switchDownPos)
         {
             transform.position = Vector3.MoveTowards(transform.position, _switchDownPos, _switchSpeed * Time.deltaTime);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.buttonPress, this.transform.position);
         }
     }
 
@@ -51,6 +52,7 @@ public class DoorSwitchBehavior : MonoBehaviour
         if (transform.position != _switchUpPos)
         {
             transform.position = Vector3.MoveTowards(transform.position, _switchUpPos, _switchSpeed * Time.deltaTime);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.buttonRelease, this.transform.position);
         }
     }
 

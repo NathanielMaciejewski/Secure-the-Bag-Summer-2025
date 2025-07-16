@@ -32,6 +32,7 @@ public class DoorBehavior : MonoBehaviour
         if (transform.position != _doorOpenPos)
         {
             transform.position = Vector3.MoveTowards(transform.position, _doorOpenPos, _doorSpeed * Time.deltaTime);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.mechanicalDoorOpen, this.transform.position);
         }
     }
 
@@ -40,6 +41,7 @@ public class DoorBehavior : MonoBehaviour
         if (transform.position != _doorClosedPos)
         {
             transform.position = Vector3.MoveTowards(transform.position, _doorClosedPos, _doorSpeed * Time.deltaTime);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.mechanicalDoorClose, this.transform.position);
         }
     }
 }
