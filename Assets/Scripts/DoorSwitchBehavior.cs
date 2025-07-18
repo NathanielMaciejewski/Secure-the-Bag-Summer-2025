@@ -76,21 +76,21 @@ public class DoorSwitchBehavior : MonoBehaviour
             {
                 _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
             }
-
-            else if (collision.CompareTag("Grabbable"))
-            {
-                isPressingSwitch = !isPressingSwitch;
-
-                if (isDoorOpenSwitch && !_doorBehavior._isDoorOpen)
-                {
-                    _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
-                }
-                //else if (isDoorCloseSwitch && _doorBehavior._isDoorOpen)
-                //{
-                //    _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
-                //}
-            }
         }
+        else if (collision.CompareTag("Grabbable"))
+        {
+            isPressingSwitch = !isPressingSwitch;
+
+            if (isDoorOpenSwitch && !_doorBehavior._isDoorOpen)
+            {
+                _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
+            }
+            //else if (isDoorCloseSwitch && _doorBehavior._isDoorOpen)
+            //{
+            //    _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
+            //}
+        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
