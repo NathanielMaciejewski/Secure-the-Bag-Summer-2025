@@ -1888,6 +1888,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6266888212157142988, guid: b5d80893a08716841a6c49c24ce645b3, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2018,6 +2022,22 @@ PrefabInstance:
     - target: {fileID: 2735773815729753789, guid: 36edc46b2be112a439b2a2b1ade15716, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822208904463202309, guid: 36edc46b2be112a439b2a2b1ade15716, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822208904463202309, guid: 36edc46b2be112a439b2a2b1ade15716, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822208904463202309, guid: 36edc46b2be112a439b2a2b1ade15716, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822208904463202309, guid: 36edc46b2be112a439b2a2b1ade15716, type: 3}
+      propertyPath: m_AngularDamping
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8686353623210285899, guid: 36edc46b2be112a439b2a2b1ade15716, type: 3}
       propertyPath: m_Name
