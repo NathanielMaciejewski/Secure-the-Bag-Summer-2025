@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -67,7 +68,7 @@ public class DoorSwitchBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || (collision.CompareTag("Grabbable")))
+        if (collision.CompareTag("Player"))
         {
             isPressingSwitch = !isPressingSwitch;
 
@@ -75,10 +76,20 @@ public class DoorSwitchBehavior : MonoBehaviour
             {
                 _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
             }
-            //else if (isDoorCloseSwitch && _doorBehavior._isDoorOpen)
-            //{
-            //    _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
-            //}
+
+            else if (collision.CompareTag("Grabbable"))
+            {
+                isPressingSwitch = !isPressingSwitch;
+
+                if (isDoorOpenSwitch && !_doorBehavior._isDoorOpen)
+                {
+                    _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
+                }
+                //else if (isDoorCloseSwitch && _doorBehavior._isDoorOpen)
+                //{
+                //    _doorBehavior._isDoorOpen = !_doorBehavior._isDoorOpen;
+                //}
+            }
         }
     }
 
