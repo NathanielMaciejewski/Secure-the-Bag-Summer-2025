@@ -1,15 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using FMOD.Studio;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class DoorBehavior : MonoBehaviour
+public class DoorBehavior : OnOffSwitchReceiver
 {
-    public bool _isDoorOpen = false;
-    Vector3 _doorClosedPos;
-    Vector3 _doorOpenPos;
-    float _doorSpeed = 10f;
+    [SerializeField] public bool isDoorOpen = false;
+    [SerializeField] private bool opensOnSwitchDown = true;
+    [SerializeField] private float trackLengthY = 3.0f;
+    [SerializeField] private float trackLengthX = 0f;
+    [SerializeField] private float animationSpeed = 10f;
+
+    private Vector3 openPosition;
+    private Vector3 closedPosition;
+    private bool isAnimating = false;
 
     #region Audio
     private EventInstance doorOpen;
@@ -18,8 +20,11 @@ public class DoorBehavior : MonoBehaviour
 
     void Awake()
     {
-        _doorClosedPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        _doorOpenPos = new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z);
+        openPosition = transform.position + new Vector3(trackLengthX, trackLengthY);
+        closedPosition = transform.position;
+
+        if (isDoorOpen)
+            isAnimating = true;
     }
 
     void Start()
@@ -30,32 +35,35 @@ public class DoorBehavior : MonoBehaviour
 
     void Update()
     {
-        if (_isDoorOpen)
+        if (isAnimating)
         {
-            OpenDoor();
-        }
-        else if (!_isDoorOpen)
-        {
-            CloseDoor();
+            if (isDoorOpen)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, openPosition, animationSpeed * Time.deltaTime);
+                UpdateSound(doorOpen);
+                if (transform.position == openPosition)
+                    isAnimating = false;
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, closedPosition, animationSpeed * Time.deltaTime);
+                UpdateSound(doorClose);
+                if (transform.position == closedPosition)
+                    isAnimating = false;
+            }
         }
     }
 
-    void OpenDoor()
+    public override void OnSwitchDown()
     {
-        if (transform.position != _doorOpenPos)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, _doorOpenPos, _doorSpeed * Time.deltaTime);
-            UpdateSound(doorOpen);
-        }
+        isAnimating = true;
+        isDoorOpen = opensOnSwitchDown;
     }
 
-    void CloseDoor()
+    public override void OnSwitchUp()
     {
-        if (transform.position != _doorClosedPos)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, _doorClosedPos, _doorSpeed * Time.deltaTime);
-            UpdateSound(doorClose);
-        }
+        isAnimating = true;
+        isDoorOpen = !opensOnSwitchDown;
     }
 
     private void UpdateSound(EventInstance doorEventInstance)
@@ -64,9 +72,7 @@ public class DoorBehavior : MonoBehaviour
         doorEventInstance.getPlaybackState(out playbackState);
 
         if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
-            {
-                doorEventInstance.start();
-            }
+            doorEventInstance.start();
     }
 
 }
