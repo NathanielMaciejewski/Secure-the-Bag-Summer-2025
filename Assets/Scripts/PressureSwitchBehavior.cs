@@ -31,6 +31,7 @@ public class PressureSwitchBehavior : MonoBehaviour
         switchDown = AudioManager.instance.CreateEventInstance(FMODEvents.instance.buttonPress);
         switchUp = AudioManager.instance.CreateEventInstance(FMODEvents.instance.buttonRelease);
     }
+
     void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
