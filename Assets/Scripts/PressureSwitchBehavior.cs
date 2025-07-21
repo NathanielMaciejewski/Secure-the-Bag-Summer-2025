@@ -60,14 +60,29 @@ public class PressureSwitchBehavior : MonoBehaviour
         }
     }
 
+    private void Animate(Vector3 targetPosition)
+    {
+        if (transform.position.y < targetPosition.y)
+            UpdateSound(switchUp);
+        else
+            UpdateSound(switchDown);
+
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime);
+
+        if (transform.position == targetPosition)
+            isAnimating = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-         RecalculatePressure(collision);
+        if (switchState != SwitchState.PRESSED)
+            RecalculatePressure(collision);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-         RecalculatePressure(collision);
+        if (switchState != SwitchState.UNPRESSED)
+            RecalculatePressure(collision);
     }
 
     private void RecalculatePressure(Collider2D collision)
@@ -100,21 +115,21 @@ public class PressureSwitchBehavior : MonoBehaviour
         if (loggingEnabled)
             Debug.Log("The things on the switch weigh " + cumulativeWeight);
 
-        // Adjust state based on the amount of weight on the switch
-        if (cumulativeWeight >= fullPressWeightThreshold)
-            ChangeState(SwitchState.PRESSED);
-        else if (cumulativeWeight >= halfPressWeightThreshold)
-            ChangeState(SwitchState.HALF_PRESSED);
-        else
-            ChangeState(SwitchState.UNPRESSED);
-    }
+        // Determine new state based on the amount of weight on the switch
+        SwitchState newState = SwitchState.UNPRESSED;
 
-    private void ChangeState(SwitchState newState)
-    {
+        if (cumulativeWeight >= fullPressWeightThreshold)
+            newState = SwitchState.PRESSED;
+        else if (cumulativeWeight >= halfPressWeightThreshold)
+            newState = SwitchState.HALF_PRESSED;
+
         // If state is unchanged, do nothing
         if (switchState == newState)
             return;
 
+        // Send result to the OnOffSwitchReceiver.
+        // Wait until now to null check the target because the switch should still animate
+        // based on weight even if it does not have a target specified.
         if (target != null)
         {
             // If the switch is now pressed
@@ -125,22 +140,12 @@ public class PressureSwitchBehavior : MonoBehaviour
             if (switchState == SwitchState.PRESSED)
                 target.OnSwitchUp();
         }
+        else if (loggingEnabled)
+            Debug.Log("Switch was pressed, but had no target");
 
-        switchState = newState;
+            // Update own flags to begin animating
+            switchState = newState;
         isAnimating = true;
-    }
-
-    private void Animate(Vector3 targetPosition)
-    {
-        if (transform.position.y < targetPosition.y)
-            UpdateSound(switchUp);
-        else
-            UpdateSound(switchDown);
-
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime);
-
-        if (transform.position == targetPosition)
-            isAnimating = false;
     }
 
     private void UpdateSound(EventInstance doorEventInstance)

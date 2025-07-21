@@ -3,34 +3,30 @@ using FMOD.Studio;
 
 public class PlayerController : MonoBehaviour
 {
-    public float groundSpeedCap = 3;
-    public float groundAcceleration = 0.1f;
-    public float normalJumpSpeedCap = 1;
-    public float normalJumpAccelerationX = 0.1f;
-    public float normalJumpAccelerationY = 4f;
-    public float normalJumpMaxHeight = 3.5f;
-    public float normalJumpGravity = -0.1f;
-    public float normalJumpFallSpeedCap = -1;
-    public float highJumpSpeedCap = 1;
-    public float highJumpAccelerationX = 0.1f;
-    public float highJumpAccelerationY = 0.1f;
-    public float highJumpGravity = -0.1f;
-    public float highJumpFallSpeedCap = -1;
-    public float longJumpSpeedCap = 1;
-    public float longJumpAccelerationX = 0.1f;
-    public float longJumpAccelerationY = 0.1f;
-    public float longJumpGravity = -0.1f;
-    public float longJumpFallSpeedCap = -1;
-
-    //public float fallSpeedCap = 1;
-
-    public float relativeScale = 0.1f;
+    [SerializeField] private float groundSpeedCap = 3;
+    [SerializeField] private float groundAcceleration = 0.1f;
+    [SerializeField] private float normalJumpSpeedCap = 1;
+    [SerializeField] private float normalJumpAccelerationX = 0.1f;
+    [SerializeField] private float normalJumpAccelerationY = 4f;
+    [SerializeField] private float normalJumpMaxHeight = 3.5f;
+    [SerializeField] private float normalJumpGravity = -0.1f;
+    [SerializeField] private float normalJumpFallSpeedCap = -1;
+    [SerializeField] private float highJumpSpeedCap = 1;
+    [SerializeField] private float highJumpAccelerationX = 0.1f;
+    [SerializeField] private float highJumpAccelerationY = 0.1f;
+    [SerializeField] private float highJumpGravity = -0.1f;
+    [SerializeField] private float highJumpFallSpeedCap = -1;
+    [SerializeField] private float longJumpSpeedCap = 1;
+    [SerializeField] private float longJumpAccelerationX = 0.1f;
+    [SerializeField] private float longJumpAccelerationY = 0.1f;
+    [SerializeField] private float longJumpGravity = -0.1f;
+    [SerializeField] private float longJumpFallSpeedCap = -1;
+    [SerializeField] private float relativeScale = 0.1f;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask grabbableLayer;
 
-    private Rigidbody2D body;
     private BoxCollider2D boxCollider;
     private GameObject heldItem;
-    private GameObject closeGrabbableItem;
     private Vector2 playerInput;
     private Vector2 velocity;
     private Vector3 scale = new Vector3(1, 1, 1);
@@ -59,7 +55,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
@@ -187,38 +182,47 @@ public class PlayerController : MonoBehaviour
         transform.localScale = scale * relativeScale;
         UpdateSound();
 
-        // If player presses X and isn't holding something, grab object
-        if (heldItem == null
-            && closeGrabbableItem != null
-            && Vector3.SqrMagnitude(transform.position - closeGrabbableItem.transform.position) <= 1
-            && Input.GetKey(KeyCode.X))
+        // Grab/release item
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            heldItem = closeGrabbableItem;
-            grabbableBehavior = heldItem.GetComponent<GrabbableBehavior>();
-
-            if (grabbableBehavior != null)
-                grabbableBehavior.Grab();
-            else
-                Debug.Log("Error: player grabbed an item with no GrabbableBehavior.");
-
-            PlayGrabSound();
-            heldItem.transform.SetParent(transform);
-            heldItem.transform.localPosition = new Vector3(0, 8, 0);
-        }
-
-        if (heldItem != null && Input.GetKey(KeyCode.C))
-        {
-            if (grabbableBehavior != null)
+            // Pick up
+            if (heldItem == null)
             {
-                 grabbableBehavior.Release(velocity);
-                 grabbableBehavior = null;
+                Debug.Log("Searching for something to grab");
+                Collider2D collision = Physics2D.OverlapBox(boxCollider.bounds.center, boxCollider.bounds.size, 0, grabbableLayer);
+
+                if (collision != null)
+                {
+                    Debug.Log($"Trying to grab {collision.gameObject.name}");
+                    grabbableBehavior = collision.gameObject.GetComponent<GrabbableBehavior>();
+
+                    if (grabbableBehavior != null)
+                    {
+                        heldItem = collision.gameObject;
+                        grabbableBehavior.Grab();
+                        PlayGrabSound();
+                        heldItem.transform.SetParent(transform);
+                        heldItem.transform.localPosition = new Vector3(0, 8, 0);
+                    }
+                    else
+                        Debug.Log("Error: player attempted to grab an item with no GrabbableBehavior");
+                }
             }
+            // Put down
+            else
+            {
+                if (grabbableBehavior != null)
+                {
+                    grabbableBehavior.Release(velocity);
+                    grabbableBehavior = null;
+                }
 
-            PlayReleaseSound();
-            heldItem.transform.SetParent(null);
-            heldItem = null;
+                PlayReleaseSound();
+                heldItem.transform.SetParent(null);
+                heldItem = null;
+
+            }
         }
-
     }
 
     private void doLeftRightMovement(float acceleration, float speedCap)
@@ -299,12 +303,6 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.right, 0.1f, groundLayer);
         return raycastHit.collider != null && velocity.x > -0.01f;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (heldItem == null && collision.gameObject.CompareTag("Grabbable"))
-            closeGrabbableItem = collision.gameObject;
     }
 
     #region Audio Functions

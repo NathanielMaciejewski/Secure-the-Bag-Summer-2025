@@ -7,15 +7,16 @@ public class SwitchWeight : MonoBehaviour
     public float GetTotalWeight()
     {
         SwitchWeight child = null;
+        float cumulativeWeight = weight;
 
-        for (int i = 0; i < transform.childCount && child == null; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             child = transform.GetChild(i).GetComponent<SwitchWeight>();
+
+            if (child != null)
+                cumulativeWeight += child.GetTotalWeight();
         }
 
-        if (child == null)
-            return weight;
-
-        return weight + child.GetTotalWeight();
+        return cumulativeWeight;
     }
 }
