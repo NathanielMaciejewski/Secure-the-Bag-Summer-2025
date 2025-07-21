@@ -10,12 +10,19 @@ public class GrabbableBehavior : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     private BoxCollider2D boxCollider;
-    private bool resting = false;
-    private bool isHeld = false;
+    private MovementState state = MovementState.FLYING;
     private Vector2 velocity = Vector2.zero;
+    private SwitchWeight weight;
+
+    private enum MovementState
+    {
+        RESTING,
+        FLYING,
+        HELD
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
 
     }
@@ -23,12 +30,13 @@ public class GrabbableBehavior : MonoBehaviour
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
+        weight = GetComponent<SwitchWeight>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (isHeld || resting)
+        if (state != MovementState.FLYING)
             return;
 
         velocity.y += gravity * Time.deltaTime;
@@ -42,7 +50,7 @@ public class GrabbableBehavior : MonoBehaviour
         if (isGrounded())
         {
             velocity = Vector2.zero;
-            resting = true;
+            state = MovementState.RESTING;
         }
 
         transform.Translate(new Vector3(velocity.x * Time.deltaTime, velocity.y * Time.deltaTime, 0));
@@ -51,20 +59,25 @@ public class GrabbableBehavior : MonoBehaviour
     // Call when picking up the grabbable object to disable physics
     public void Grab()
     {
-        resting = false;
-        isHeld = true;
+        state = MovementState.HELD;
     }
 
     // Call when releasing the grabbable object to initiate a throw with the provided velocity
     public void Release(Vector2 initialVelocity)
     {
-        resting = false;
-        isHeld = false;
+        state = MovementState.FLYING;
         velocity.x = initialVelocity.x * xVelThrowMultiplier;
         if (Mathf.Abs(initialVelocity.x) > 0.1f)
             velocity.y = initialVelocity.y + yVelThrowBoost;
         else
             velocity.y = initialVelocity.y;
+    }
+
+    public float GetAttackPower()
+    {
+        if (weight != null && state == MovementState.FLYING)
+            return 0;
+        return weight.GetTotalWeight();
     }
 
     private bool isGrounded()
