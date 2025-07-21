@@ -406,6 +406,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - Dialogue
   - Level1
   - Level2
   - SFX
