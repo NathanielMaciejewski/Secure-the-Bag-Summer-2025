@@ -21,19 +21,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float longJumpAccelerationY = 0.1f;
     [SerializeField] private float longJumpGravity = -0.1f;
     [SerializeField] private float longJumpFallSpeedCap = -1;
+    [SerializeField] private float carryingStrength = 0f;
     [SerializeField] private float relativeScale = 0.1f;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private LayerMask grabbableLayer;
 
     private BoxCollider2D boxCollider;
-    private GameObject heldItem;
     private Vector2 playerInput;
     private Vector2 velocity;
     private Vector3 scale = new Vector3(1, 1, 1);
     private MovementState movementState = MovementState.GROUNDED;
     private float jumpInitialY = 0;
     private bool hasJumpTimedOut = false;
-    private GrabbableBehavior grabbableBehavior;
+    private Grabber grabber;
 
     #region Audio
     public EventInstance playerFootsteps;
@@ -56,6 +55,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
+        grabber = GetComponent<Grabber>();
     }
 
     // Update is called once per frame
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetKey(KeyCode.Space) && isGrounded())
                 {
                     PlayJumpSound();
-                    if (Input.GetKey(KeyCode.S) && heldItem == null)
+                    if (Input.GetKey(KeyCode.S) && !grabber.IsEncumbered(carryingStrength))
                         if (Mathf.Abs(velocity.x) > 0.5 * groundSpeedCap)
                             jumpLong();
                         else
@@ -183,44 +183,23 @@ public class PlayerController : MonoBehaviour
         UpdateSound();
 
         // Grab/release item
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && grabber != null)
         {
             // Pick up
-            if (heldItem == null)
+            if (!grabber.HasItem())
             {
-                Debug.Log("Searching for something to grab");
-                Collider2D collision = Physics2D.OverlapBox(boxCollider.bounds.center, boxCollider.bounds.size, 0, grabbableLayer);
+                Collider2D collision = Physics2D.OverlapBox(boxCollider.bounds.center, boxCollider.bounds.size, 0, grabber.GetGrabLayer());
 
                 if (collision != null)
-                {
-                    Debug.Log($"Trying to grab {collision.gameObject.name}");
-                    grabbableBehavior = collision.gameObject.GetComponent<GrabbableBehavior>();
-
-                    if (grabbableBehavior != null)
-                    {
-                        heldItem = collision.gameObject;
-                        grabbableBehavior.Grab();
-                        PlayGrabSound();
-                        heldItem.transform.SetParent(transform);
-                        heldItem.transform.localPosition = new Vector3(0, 8, 0);
-                    }
-                    else
-                        Debug.Log("Error: player attempted to grab an item with no GrabbableBehavior");
-                }
+                    grabber.Grab(collision.gameObject);
             }
             // Put down
             else
             {
-                if (grabbableBehavior != null)
-                {
-                    grabbableBehavior.Release(velocity);
-                    grabbableBehavior = null;
-                }
-
-                PlayReleaseSound();
-                heldItem.transform.SetParent(null);
-                heldItem = null;
-
+                if (Input.GetKey(KeyCode.S))
+                    grabber.Drop();
+                else
+                    grabber.Throw(velocity);
             }
         }
     }
@@ -258,7 +237,10 @@ public class PlayerController : MonoBehaviour
         movementState = MovementState.NORMAL_JUMP;
         jumpInitialY = transform.localPosition.y;
         velocity.y = initialVelocity;
-        hasJumpTimedOut = initialVelocity < 0.01f || heldItem != null;
+        hasJumpTimedOut = initialVelocity < 0.01f;
+
+        if (grabber != null && !hasJumpTimedOut)
+            hasJumpTimedOut = grabber.IsEncumbered(carryingStrength);
     }
 
     private void jumpHigh()
@@ -330,15 +312,6 @@ public class PlayerController : MonoBehaviour
     private void PlayJumpSound()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.jump, this.transform.position);
-    }
-
-    private void PlayGrabSound()
-    {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.bagGrab, this.transform.position);
-    }
-    private void PlayReleaseSound()
-    {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.bagRelease, this.transform.position);
     }
 
     #endregion

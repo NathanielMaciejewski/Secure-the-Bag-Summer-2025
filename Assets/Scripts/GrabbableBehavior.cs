@@ -7,6 +7,7 @@ public class GrabbableBehavior : MonoBehaviour
     [SerializeField] private float xVelDamping = 1.0f;
     [SerializeField] private float xVelThrowMultiplier = 2.5f;
     [SerializeField] private float yVelThrowBoost = 2.5f;
+    [SerializeField] private bool isEnabled = true;
     [SerializeField] private LayerMask groundLayer;
 
     private BoxCollider2D boxCollider;
@@ -36,7 +37,7 @@ public class GrabbableBehavior : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (state != MovementState.FLYING)
+        if (state != MovementState.FLYING || !isEnabled)
             return;
 
         velocity.y += gravity * Time.deltaTime;
@@ -56,7 +57,7 @@ public class GrabbableBehavior : MonoBehaviour
         transform.Translate(new Vector3(velocity.x * Time.deltaTime, velocity.y * Time.deltaTime, 0));
     }
 
-    // Call when picking up the grabbable object to disable physics
+    // Call when picking up the grabbable object to disable physics.
     public void Grab()
     {
         state = MovementState.HELD;
@@ -75,9 +76,19 @@ public class GrabbableBehavior : MonoBehaviour
 
     public float GetAttackPower()
     {
-        if (weight != null && state == MovementState.FLYING)
+        if (weight != null && state != MovementState.FLYING)
             return 0;
         return weight.GetTotalWeight();
+    }
+
+    public bool IsGrabbable()
+    {
+        return state != MovementState.HELD && isEnabled;
+    }
+
+    public void SetEnabled(bool input)
+    {
+        isEnabled = input;
     }
 
     private bool isGrounded()

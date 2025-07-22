@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class IsKillable : MonoBehaviour
 {
+    public bool isVulnerable = true;
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         // If this object collides with a cop or bottomless pit
