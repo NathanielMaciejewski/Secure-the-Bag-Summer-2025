@@ -2,7 +2,7 @@ using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class VOTrigger : MonoBehaviour
+public class VoiceOverPlay : VoiceOverTrigger
 {
     [field: Header("Parameter Change")]
     [field: SerializeField] public EventReference voicOverLine { get; private set; }
@@ -13,19 +13,22 @@ public class VOTrigger : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         hasPlayed = false;
+        Debug.Log("New VO Trigger Created" + gameObject.name);
+        Debug.Log("Has Played? " + hasPlayed);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (hasPlayed == false)
+        if (collider.tag.Equals("Player"))
         {
-            if (collider.tag.Equals("Player"))
+            if (hasPlayed == false)
             {
                 RuntimeManager.PlayOneShot(voicOverLine);
+                hasPlayed = true;
             }
+            Debug.Log("Has Played? " + hasPlayed);
         }
-        hasPlayed = true;
-        return;
+        else return;
 
     }
 }

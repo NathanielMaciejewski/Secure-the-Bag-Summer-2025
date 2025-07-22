@@ -36,7 +36,6 @@ public class FMODEvents : MonoBehaviour
         }
         else
         {
-            // Debug.LogError("Found more than one Audio Manager in the scene.");
             Destroy(gameObject);
         }
     }
