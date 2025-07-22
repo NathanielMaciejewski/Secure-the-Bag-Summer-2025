@@ -11,7 +11,7 @@ public class MusicChangeTrigger : MonoBehaviour
         if (collider.tag.Equals("Player"))
         {
             AudioManager.instance.SetMusicParameter(parameterName, parameterValue);
-            Debug.Log(parameterName + " value " + parameterValue);
+            //Debug.Log(parameterName + " value " + parameterValue);
         }
     }
 
