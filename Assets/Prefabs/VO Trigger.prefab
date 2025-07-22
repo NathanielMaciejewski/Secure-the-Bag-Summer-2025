@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1faf22539e17f4f8c6a2ffe0be9dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  id: 0
   <voicOverLine>k__BackingField:
     Guid:
       Data1: 0
