@@ -40,6 +40,7 @@ public class DoorBehavior : OnOffSwitchReceiver
             if (isDoorOpen)
             {
                 transform.position = Vector3.MoveTowards(transform.position, openPosition, animationSpeed * Time.deltaTime);
+                StopSound(doorClose);
                 UpdateSound(doorOpen);
                 if (transform.position == openPosition)
                     isAnimating = false;
@@ -47,6 +48,7 @@ public class DoorBehavior : OnOffSwitchReceiver
             else
             {
                 transform.position = Vector3.MoveTowards(transform.position, closedPosition, animationSpeed * Time.deltaTime);
+                StopSound(doorOpen);
                 UpdateSound(doorClose);
                 if (transform.position == closedPosition)
                     isAnimating = false;
@@ -73,6 +75,15 @@ public class DoorBehavior : OnOffSwitchReceiver
 
         if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
             doorEventInstance.start();
+    }
+
+    private void StopSound(EventInstance doorEventInstance)
+    {
+        PLAYBACK_STATE playbackState;
+        doorEventInstance.getPlaybackState(out playbackState);
+
+        if (playbackState.Equals(PLAYBACK_STATE.PLAYING))
+            doorEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
 }

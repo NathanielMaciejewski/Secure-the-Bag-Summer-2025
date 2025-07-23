@@ -314,6 +314,11 @@ public class PlayerController : MonoBehaviour
         AudioManager.instance.PlayOneShot(FMODEvents.instance.jump, this.transform.position);
     }
 
+    private void OnDestroy()
+    {
+        playerFootsteps.stop(STOP_MODE.IMMEDIATE);
+    }
+
     #endregion
 
 }

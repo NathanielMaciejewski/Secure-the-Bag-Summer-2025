@@ -77,7 +77,7 @@ public class AudioManager : MonoBehaviour
         return eventInstance;
     }
 
-    private void CleanUp()
+    public void CleanUp()
     {
         // Stop and release any created instances
         foreach (EventInstance eventInstance in eventInstances)
@@ -87,7 +87,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Oestroy()
+    public void Oestroy()
     {
         CleanUp();
     }
