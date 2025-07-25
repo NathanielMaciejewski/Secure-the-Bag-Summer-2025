@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     private bool hasJumpTimedOut = false;
     private Grabber grabber;
 
+    //Derek Added 7/24
+    private Animator anim;
+
     #region Audio
     public EventInstance playerFootsteps;
     #endregion
@@ -49,6 +52,8 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Derek added 7/24 anim
+        anim = GetComponent<Animator>();
         playerFootsteps = AudioManager.instance.CreateEventInstance(FMODEvents.instance.defaultFootsteps);
     }
 
@@ -69,6 +74,17 @@ public class PlayerController : MonoBehaviour
             scale.x = 1.0f;
         else if (velocity.x < -0.01)
             scale.x = -1.0f;
+
+        // Derek Added - Transition between Idle and Running animations
+        if (velocity.x == 0)
+        {
+            anim.SetBool("isRunning", false);
+        }
+        else
+        {
+            anim.SetBool("isRunning", true);
+        }
+
 
         if (isGrounded())
         {
@@ -106,7 +122,10 @@ public class PlayerController : MonoBehaviour
 
                 // Determine whether to jump
                 if (Input.GetKey(KeyCode.Space) && isGrounded())
+                    
                 {
+                    //Derek Added - setting trigger for jump animation
+                    anim.SetTrigger("Jump");
                     PlayJumpSound();
                     if (Input.GetKey(KeyCode.S) && !grabber.IsEncumbered(carryingStrength))
                         if (Mathf.Abs(velocity.x) > 0.5 * groundSpeedCap)
