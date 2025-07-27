@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
         UpdateSound();
 
         // Grab/release item
-        if (Input.GetKeyDown(KeyCode.E) && grabber != null)
+        if (Input.GetKeyDown(KeyCode.W) && grabber != null)
         {
             // Pick up
             if (!grabber.HasItem())
