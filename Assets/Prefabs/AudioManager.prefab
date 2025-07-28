@@ -124,6 +124,13 @@ MonoBehaviour:
       Data3: 1523176872
       Data4: 498272976
     Path: event:/SFX/DefaultFootsteps
+  <playerDeath>k__BackingField:
+    Guid:
+      Data1: -1877149665
+      Data2: 1244755095
+      Data3: -286514252
+      Data4: -209140556
+    Path: event:/SFX/PlayerDeath
   <bagGrab>k__BackingField:
     Guid:
       Data1: -188670521
@@ -138,6 +145,20 @@ MonoBehaviour:
       Data3: 165492369
       Data4: 1507332206
     Path: event:/SFX/BagRelease
+  <copDamage>k__BackingField:
+    Guid:
+      Data1: -1395673296
+      Data2: 1193347720
+      Data3: -1842349164
+      Data4: -14170832
+    Path: event:/SFX/CopDamage
+  <copAggro>k__BackingField:
+    Guid:
+      Data1: -1690901245
+      Data2: 1114762683
+      Data3: 61200525
+      Data4: 1154096928
+    Path: event:/SFX/CopAggro
   <buttonPress>k__BackingField:
     Guid:
       Data1: 907209005

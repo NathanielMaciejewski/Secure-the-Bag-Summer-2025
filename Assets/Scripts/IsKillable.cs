@@ -21,10 +21,8 @@ public class IsKillable : MonoBehaviour
         Debug.Log("You Died");
 
         // Show death animation
-        // Play death SFX
-        // Reload scene
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.playerDeath, this.transform.position);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        // Stop all SFX besides ambience and music
 
     }
 }

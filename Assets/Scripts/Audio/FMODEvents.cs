@@ -14,10 +14,15 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference jump { get; private set; }
     [field: SerializeField] public EventReference land { get; private set; }
     [field: SerializeField] public EventReference defaultFootsteps { get; private set; }
+    [field: SerializeField] public EventReference playerDeath { get; private set; }
 
     [field: Header("Bag SFX")]
     [field: SerializeField] public EventReference bagGrab { get; private set; }
     [field: SerializeField] public EventReference bagRelease { get; private set; }
+
+    [field: Header("Enemy SFX")]
+    [field: SerializeField] public EventReference copDamage { get; private set; }
+    [field: SerializeField] public EventReference copAggro { get; private set; }
 
     [field: Header("Environment")]
     [field: SerializeField] public EventReference buttonPress { get; private set; }

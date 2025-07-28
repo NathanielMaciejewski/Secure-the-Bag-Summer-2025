@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 
 public class CopBehavior : MonoBehaviour
@@ -73,6 +74,7 @@ public class CopBehavior : MonoBehaviour
             return;
 
         isAggroed = true;
+        PlayCopAggro();
         aggroTime = Time.time;
         Debug.Log($"Cop was aggroed at time {aggroTime}!");
     }
@@ -93,7 +95,7 @@ public class CopBehavior : MonoBehaviour
             if (damage > 0)
             {
                 HP -= damage;
-                // Cop damage SFX
+                PlayCopDamage();
             }
             else if (thing.name == "Bag" && grabber != null)
             {
@@ -120,4 +122,18 @@ public class CopBehavior : MonoBehaviour
         RaycastHit2D raycastHit = Physics2D.BoxCast(hitbox.bounds.center, hitbox.bounds.size, 0, Vector2.right, 0.1f, groundLayer);
         return raycastHit.collider != null && sprite.transform.localScale.x > 0;
     }
+
+    #region Audio Functions
+
+    private void PlayCopAggro()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.copAggro, this.transform.position);
+    }
+
+    private void PlayCopDamage()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.copDamage, this.transform.position);
+    }
+    #endregion
+
 }
