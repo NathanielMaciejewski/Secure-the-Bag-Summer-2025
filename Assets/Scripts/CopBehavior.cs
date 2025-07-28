@@ -93,6 +93,7 @@ public class CopBehavior : MonoBehaviour
             if (damage > 0)
             {
                 HP -= damage;
+                // Cop damage SFX
             }
             else if (thing.name == "Bag" && grabber != null)
             {
