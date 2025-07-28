@@ -12,14 +12,19 @@ public class IsKillable : MonoBehaviour
         // If this object collides with a cop or bottomless pit
         if (collision.gameObject.CompareTag("Destroyer"))
         {
-            Debug.Log("You Died");
-            // Show death animation
-            // Play death SFX
-            // Reload scene
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            // Stop all SFX besides ambience and music
-
+            Kill();
         }
     }
 
+    public void Kill()
+    {
+        Debug.Log("You Died");
+
+        // Show death animation
+        // Play death SFX
+        // Reload scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // Stop all SFX besides ambience and music
+
+    }
 }

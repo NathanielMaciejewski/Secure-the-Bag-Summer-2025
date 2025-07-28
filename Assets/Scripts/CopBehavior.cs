@@ -4,20 +4,25 @@ public class CopBehavior : MonoBehaviour
 {
     [SerializeField] private float HP = 1;
     [SerializeField] private float movementSpeed = 2f;
+    [SerializeField] private float aggroSpeed = 8f;
     [SerializeField] private LayerMask groundLayer;
 
     private bool isAlive = true;
     private Vector3 scale;
     private BoxCollider2D hitbox;
     private Transform sprite;
+    private Transform lineOfSight;
     private Grabber grabber;
+    private bool isAggroed = false;
+    private float aggroTime = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        sprite = transform.GetChild(0);
+        lineOfSight = transform.GetChild(1);
         hitbox = GetComponent<BoxCollider2D>();
         grabber = GetComponent<Grabber>();
-        sprite = transform.GetChild(0);
     }
 
     // Update is called once per frame
@@ -25,6 +30,9 @@ public class CopBehavior : MonoBehaviour
     {
         if (isAlive)
         {
+            if (isAggroed)
+                isAggroed = Time.time - aggroTime <= 1.5f;
+
             scale = sprite.transform.localScale;
             if (HP <= 0)
             {
@@ -34,8 +42,6 @@ public class CopBehavior : MonoBehaviour
                 isAlive = false;
                 sprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
                 sprite.transform.Translate(new Vector3(-0.3f, 0, 0));
-                //scale.y *= -1;
-                //fieldOfVision.transform.localScale = Vector3.zero;
 
                 if (TryGetComponent<GrabbableBehavior>(out var grabbableBehavior))
                 {
@@ -48,22 +54,36 @@ public class CopBehavior : MonoBehaviour
             else
             {
                 if (isWallToLeft() || isWallToRight())
+                {
                     scale.x *= -1;
+                    isAggroed = false;
+                }
 
-                transform.Translate(new Vector3(movementSpeed * scale.x * Time.deltaTime, 0, 0));
+                transform.Translate(new Vector3((isAggroed ? aggroSpeed : movementSpeed) * scale.x * Time.deltaTime, 0, 0));
             }
 
             sprite.transform.localScale = scale;
+            lineOfSight.transform.localScale = scale;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Aggro()
+    {
+        if (!isAlive)
+            return;
+
+        isAggroed = true;
+        aggroTime = Time.time;
+        Debug.Log($"Cop was aggroed at time {aggroTime}!");
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isAlive)
             return;
 
         GameObject thing = collision.gameObject;
-        GrabbableBehavior projectile = collision.gameObject.GetComponent<GrabbableBehavior>();
+        GrabbableBehavior projectile = thing.GetComponent<GrabbableBehavior>();
 
         if (projectile != null)
         {
@@ -77,12 +97,15 @@ public class CopBehavior : MonoBehaviour
             else if (thing.name == "Bag" && grabber != null)
             {
                 grabber.Grab(thing);
+                isAggroed = false;
             }
-            
+
             return;
         }
 
-        IsKillable deathBehavior = thing.GetComponent<IsKillable>();
+        if (thing.CompareTag("Player"))
+            thing.GetComponent<IsKillable>()?.Kill();
+
     }
 
     private bool isWallToLeft()
