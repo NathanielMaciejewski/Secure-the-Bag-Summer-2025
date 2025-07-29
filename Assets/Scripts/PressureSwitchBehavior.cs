@@ -87,6 +87,9 @@ public class PressureSwitchBehavior : MonoBehaviour
 
     private void RecalculatePressure(Collider2D collision)
     {
+        if (loggingEnabled)
+            Debug.Log("Switch triggered by " + collision.gameObject.name);
+
         // If switch is pressed and shouldn't unpress, don't do anything
         if (switchState == SwitchState.PRESSED && !shouldResetWhenUnpressed)
             return;

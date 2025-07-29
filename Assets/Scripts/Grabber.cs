@@ -8,6 +8,8 @@ public class Grabber : MonoBehaviour
 
     public void Grab(GameObject thing)
     {
+        Debug.Log("Attempting to grab " + thing?.name);
+
         if (heldItem != null || thing == null)
             return;
 

@@ -61,6 +61,7 @@ public class GrabbableBehavior : MonoBehaviour
     public void Grab()
     {
         state = MovementState.HELD;
+        Debug.Log("Grabbed " + name);
     }
 
     // Call when releasing the grabbable object to initiate a throw with the provided velocity

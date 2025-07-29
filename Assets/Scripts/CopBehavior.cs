@@ -43,6 +43,7 @@ public class CopBehavior : MonoBehaviour
                 isAlive = false;
                 sprite.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
                 sprite.transform.Translate(new Vector3(-0.3f, 0, 0));
+                lineOfSight.transform.localScale = Vector3.zero;
 
                 if (TryGetComponent<GrabbableBehavior>(out var grabbableBehavior))
                 {
@@ -73,13 +74,23 @@ public class CopBehavior : MonoBehaviour
         if (!isAlive)
             return;
 
-        isAggroed = true;
-        PlayCopAggro();
         aggroTime = Time.time;
-        Debug.Log($"Cop was aggroed at time {aggroTime}!");
+
+        if (!isAggroed)
+        {
+            PlayCopAggro();
+            Debug.Log($"Cop was aggroed at time {aggroTime}!");
+        }
+
+        isAggroed = true;
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    public bool HasBag()
+    {
+        return grabber.HasItem();
+    }
+
+    public void DeathColliderTrigger(Collider2D collision)
     {
         if (!isAlive)
             return;
@@ -108,7 +119,6 @@ public class CopBehavior : MonoBehaviour
 
         if (thing.CompareTag("Player"))
             thing.GetComponent<IsKillable>()?.Kill();
-
     }
 
     private bool isWallToLeft()
