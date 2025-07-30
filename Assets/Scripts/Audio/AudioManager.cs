@@ -1,11 +1,7 @@
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
-using System.Dynamic;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
-using UnityEngine.SceneManagement;
-using JetBrains.Annotations;
 
 public class AudioManager : MonoBehaviour
 {
