@@ -138,13 +138,13 @@ TextureImporter:
       name: UI Signage_0
       rect:
         serializedVersion: 2
-        x: 104
-        y: 460
-        width: 378
-        height: 241
+        x: 99
+        y: 596
+        width: 383
+        height: 105
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 3, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
